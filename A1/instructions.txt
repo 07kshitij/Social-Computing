@@ -1,0 +1,13 @@
+Name: Kshitij Agrawal
+Roll: 17EC10063
+
+--- Requirements ---
+
+    python >= 3.6.*
+
+--- Installations ---
+
+    python3 -m venv venv
+    pip3 install -r requirements.txt
+
+--- Running the Code ---
