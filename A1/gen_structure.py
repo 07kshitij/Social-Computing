@@ -1,6 +1,8 @@
 import sys
 import os
 import snap
+# import time
+# start_time = time.time()
 
 global Rnd
 
@@ -102,10 +104,10 @@ def gen_structure(file_name):
     if not os.path.exists("plots"):
         os.makedirs("plots")
 
-    # snap.PlotInDegDistr(graph, '{}'.format(root_file),
-    #                     '{} - Degree Distribution'.format(file_name))
+    snap.PlotInDegDistr(graph, '{}'.format(root_file),
+                        '{} - Degree Distribution'.format(file_name))
 
-    # save_plot('inDeg', root_file, 'deg_dist')
+    save_plot('inDeg', root_file, 'deg_dist')
 
     # --- Paths in the network ---
 
@@ -129,10 +131,10 @@ def gen_structure(file_name):
             round(mean(eff_diameters), 4), 
             round(variance(eff_diameters), 4)))
 
-    # snap.PlotShortPathDistr(graph, '{}'.format(root_file), 
-    #                             '{} - Shortest Path Distribution'.format(file_name))
+    snap.PlotShortPathDistr(graph, '{}'.format(root_file), 
+                                '{} - Shortest Path Distribution'.format(file_name))
 
-    # save_plot('diam', root_file, 'shortest_path')
+    save_plot('diam', root_file, 'shortest_path')
 
     # --- Components of the network ---
 
@@ -148,10 +150,10 @@ def gen_structure(file_name):
     snap.GetArtPoints(graph, articulation_points)
     print('Number of articulation points: {}'.format(len(articulation_points)))
 
-    # snap.PlotSccDistr(graph, '{}'.format(root_file),
-    #                         '{} - Connected Component Sizes Distribution'.format(file_name))
+    snap.PlotSccDistr(graph, '{}'.format(root_file),
+                            '{} - Connected Component Sizes Distribution'.format(file_name))
 
-    # save_plot('scc', root_file, 'connected_comp')
+    save_plot('scc', root_file, 'connected_comp')
 
     # --- Connectivity and clustering in the network ---
 
@@ -161,11 +163,11 @@ def gen_structure(file_name):
     triads = snap.GetTriads(graph, -1)
     print('Number of triads: {}'.format(triads))
 
-    node = 1
+    node = graph.GetRndNId(Rnd)
     rnd_clustering_coeff = snap.GetNodeClustCf(graph, node)
     print('Clustering coefficient of random node {}: {}'.format(node, round(rnd_clustering_coeff, 4)))
 
-    node = 1
+    node = graph.GetRndNId(Rnd)
     rnd_triads = snap.GetNodeTriads(graph, node)
     print('Number of triads random node {} participates: {}'.format(node, rnd_triads))
 
@@ -182,3 +184,4 @@ if __name__ == "__main__":
     Rnd.Randomize()
     file_name = sys.argv[1]
     gen_structure(file_name)
+    # print("--- {} seconds ---".format(time.time() - start_time))

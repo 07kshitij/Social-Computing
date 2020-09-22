@@ -21,5 +21,9 @@ Roll: 17EC10063
     # Facebook Graph
     python gen_structure.py facebook.elist
 
+    # Approx time : 16 seconds
+
     # Amazon Graph
     python gen_structure.py amazon.elist
+
+    # Approx time : 49 seconds
