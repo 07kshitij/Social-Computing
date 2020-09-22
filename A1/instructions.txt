@@ -2,12 +2,24 @@ Name: Kshitij Agrawal
 Roll: 17EC10063
 
 --- Requirements ---
-
-    python >= 3.6.*
+    
+    1. System & Python requirements: https://docs.google.com/spreadsheets/d/1m-5gHUmGzh8XfLUCAY3eYvdcBA98TUMMusVZkwmpdaI/edit#gid=0
+    2. GnuPlot
+        Windows: 
+            Install Chocolatey (https://chocolatey.org/docs/installation)
+            choco install Gnuplot
+        Ubuntu >= 18.04:
+            sudo apt-get install gnuplot
 
 --- Installations ---
 
-    python3 -m venv venv
-    pip3 install -r requirements.txt
+    python -m venv venv
+    pip install -r requirements.txt
 
 --- Running the Code ---
+
+    # Facebook Graph
+    python gen_structure.py facebook.elist
+
+    # Amazon Graph
+    python gen_structure.py amazon.elist

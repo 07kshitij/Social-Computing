@@ -2,7 +2,7 @@ import sys
 import os
 
 
-def reduce_graph(file_name):
+def SaveEdgeList(file_name):
 
     source = ""
     if "facebook" in file_name:
@@ -35,4 +35,4 @@ def reduce_graph(file_name):
 
 if __name__ == "__main__":
     file_name = sys.argv[1]
-    reduce_graph(file_name)
+    SaveEdgeList(file_name)

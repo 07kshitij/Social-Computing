@@ -1,2 +1,4 @@
 *.gz
 *.txt
+*.tab
+*.plt
