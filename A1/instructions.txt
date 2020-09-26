@@ -1,29 +1,52 @@
 Name: Kshitij Agrawal
 Roll: 17EC10063
 
---- Requirements ---
+*** Requirements ***
     
-    1. System & Python requirements: https://docs.google.com/spreadsheets/d/1m-5gHUmGzh8XfLUCAY3eYvdcBA98TUMMusVZkwmpdaI/edit#gid=0
+    1. System & Python requirements: 
+
+        OS: Ubuntu >= 18.04
+        OS: Windows 10
+        Py: Python 3.7.8 (Tested with this version)
+        
+        Ref: https://docs.google.com/spreadsheets/d/1m-5gHUmGzh8XfLUCAY3eYvdcBA98TUMMusVZkwmpdaI/edit#gid=0
+
     2. GnuPlot
-        Windows: 
-            Install Chocolatey (https://chocolatey.org/docs/installation)
-            choco install Gnuplot
+
+        Windows 10: 
+            1. Install Chocolatey (https://chocolatey.org/docs/installation)
+            2. choco install Gnuplot
+            Note:
+                Although Chocolatey adds gnuplot to the `Path` Environment Variable, still 
+                please ensure `C:\Program Files\gnuplot\bin` exists in your Path Variable
+
         Ubuntu >= 18.04:
-            sudo apt-get install gnuplot
+            1. sudo apt-get install gnuplot
+            Note: Ensure gnuplot exists in your PATH. 
+                a. Get the path by running the following command - 
+                    which gnuplot
+                b. Add the output to the PATH string in your .bashrc (or .zshrc if using Oh My Zsh)
 
---- Installations ---
+*** SNAP Installation ***
 
-    python -m venv venv
-    pip install -r requirements.txt
+    Method 1:
+        OPTIONAL (Preferred to avoid conflict in dependencies)
+        
+        python -m venv venv
+        pip install -r requirements.txt
 
---- Running the Code ---
+    Method 2:
+        pip install snap-stanford
+
+*** Running the Code ***
 
     # Facebook Graph
+    # Approx time : 20 - 30 seconds
+
     python gen_structure.py facebook.elist
 
-    # Approx time : 16 seconds
 
     # Amazon Graph
-    python gen_structure.py amazon.elist
+    # Approx time : 60 seconds
 
-    # Approx time : 49 seconds
+    python gen_structure.py amazon.elist

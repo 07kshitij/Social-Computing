@@ -19,6 +19,8 @@ def SaveEdgeList(file_name):
     with open(file_name, 'r') as file:
         graph = file.readlines()
         for edge in graph:
+            if "#" in edge:
+                continue
             u, v = map(int, edge.split())
             if source == "facebook":
                 if u % 5 and v % 5:
@@ -34,5 +36,9 @@ def SaveEdgeList(file_name):
 
 
 if __name__ == "__main__":
-    file_name = sys.argv[1]
-    SaveEdgeList(file_name)
+    # Before running the code below ensure the two file names below \
+    # are present in the current directory
+    fb_file_name = "facebook_combined.txt"
+    SaveEdgeList(fb_file_name)
+    az_file_name = "com-amazon.ungraph.txt"
+    SaveEdgeList(az_file_name)
