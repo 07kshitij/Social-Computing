@@ -6,13 +6,16 @@ from collections import deque
 
 DATA_PATH = 'facebook_combined.txt'
 
+ROOT_PATH = 'centralities'
+CLOSENESS_FILE = 'closeness.txt'
+BETWEENNESS_FILE = 'betweenness.txt'
+PAGERANK_FILE = 'pagerank.txt'
+INFINITY = 10 ** 9
 
 class Centrality_Metrics:
     def __init__(self):
         self.graph = self.load_graph()
         self.num_nodes = len(self.graph.keys())
-        if not os.path.exists('centralities'):
-            os.makedirs('centralities')
 
     def add_edge(self, graph, u, v):
         try:
@@ -23,41 +26,42 @@ class Centrality_Metrics:
 
     def load_graph(self):
         graph = dict()
-        with open(DATA_PATH, 'r') as edgeList:
-            for edge in edgeList.readlines():
+        with open(DATA_PATH, 'r') as edge_list:
+            for edge in edge_list.readlines():
                 u, v = list(map(int, edge.split()))
                 self.add_edge(graph, u, v)
                 self.add_edge(graph, v, u)
         return graph
 
-    def closeness_centrality(self):
-        closeness, betweenness = self.Brandes()
+    def centrality(self):
+        closeness, betweenness = self.brandes_algorithm()
         sorted_closeness = sorted(
             closeness.items(),   key=lambda item: item[1], reverse=True)
         sorted_betweenness = sorted(
             betweenness.items(), key=lambda item: item[1], reverse=True)
 
-        with open(os.path.join('centralities', 'closeness.txt'), 'w') as file:
+        with open(os.path.join(ROOT_PATH, CLOSENESS_FILE), 'w') as file:
             for key in sorted_closeness:
                 file.write("{} {}\n".format(key[0], closeness[key[0]]))
 
-        with open(os.path.join('centralities', 'betweenness.txt'), 'w') as file:
+        with open(os.path.join(ROOT_PATH, BETWEENNESS_FILE), 'w') as file:
             for key in sorted_betweenness:
                 file.write("{} {}\n".format(key[0], betweenness[key[0]]))
-        return
 
     # https://www.cl.cam.ac.uk/teaching/1617/MLRD/handbook/brandes.pdf
-    def Brandes(self):
+    def brandes_algorithm(self):
         closeness = dict((node, 0) for node in range(self.num_nodes))
         betweenness = dict((node, 0) for node in range(self.num_nodes))
         steps = 0
         for src in range(self.num_nodes):
+            if len(self.graph[src]) == 0:
+                continue
             stack = []
             parent = [[] for node in range(self.num_nodes)]
             sigma = [0 for node in range(self.num_nodes)]
             sigma[src] = 1
             delta = [0 for node in range(self.num_nodes)]
-            distance = [10 ** 9 for node in range(self.num_nodes)]
+            distance = [INFINITY for node in range(self.num_nodes)]
             distance[src] = 0
             queue = deque([])
             queue.append(src)
@@ -65,7 +69,7 @@ class Centrality_Metrics:
                 u = queue.popleft()
                 stack.append(u)
                 for v in self.graph[u]:
-                    if distance[v] == 10 ** 9:
+                    if distance[v] == INFINITY:
                         distance[v] = distance[u] + 1
                         queue.append(v)
                     if distance[v] == distance[u] + 1:
@@ -89,8 +93,51 @@ class Centrality_Metrics:
                                       * (self.num_nodes - 2)))
         return closeness, betweenness
 
+    def normalize(self, pageRank):
+        sum_scores = sum(pageRank)
+        pageRank = [value / sum_scores for value in pageRank]
+        return pageRank
+
+    def pagerank(self):
+        S = sum([1 for x in self.graph.keys() if not (x % 4)])
+        degree = [len(self.graph[node]) for node in range(self.num_nodes)]
+        prefVector = [1 / S if not (node % 4) else 0 for node in range(self.num_nodes)]
+        pageRank = prefVector
+
+        num_iterations = 100
+        alpha = 0.8
+
+        while num_iterations:
+
+            for node in range(self.num_nodes):
+                if len(self.graph[node]) == 0:
+                    continue
+                curr_sum = 0
+                for v in self.graph[node]:
+                    curr_sum += pageRank[v] / degree[v]
+                pageRank[node] = alpha * curr_sum + (1 - alpha) * prefVector[node]
+
+            pageRank = self.normalize(pageRank)
+
+            num_iterations -= 1
+
+        pageRank_scores = dict()
+
+        for node in self.graph.keys():
+            pageRank_scores[node] = pageRank[node]
+
+        sorted_pagerank = sorted(
+            pageRank_scores.items(), key=lambda item: item[1], reverse=True
+        )
+
+        with open(os.path.join(ROOT_PATH, PAGERANK_FILE), 'w') as file:
+            for key in sorted_pagerank:
+                file.write("{} {}\n".format(key[0], pageRank_scores[key[0]]))
 
 if __name__ == "__main__":
+    if not os.path.exists(ROOT_PATH):
+        os.makedirs(ROOT_PATH)
     obj = Centrality_Metrics()
-    obj.closeness_centrality()
+    obj.centrality()
+    obj.pagerank()
     pass
