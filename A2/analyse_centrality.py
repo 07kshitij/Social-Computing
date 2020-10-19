@@ -1,8 +1,5 @@
-import sys
 import os
 import snap
-import statistics
-from collections import deque
 
 DATA_PATH = 'facebook_combined.txt'
 
@@ -13,15 +10,23 @@ PAGERANK_FILE = 'pagerank.txt'
 
 DEBUG = False
 
+''' Class computing the centrality metrics using SNAP library functions '''
+
+
 class Analyse_Centrality:
     def __init__(self):
         self.graph = self.load_graph()
         if DEBUG and not os.path.exists('analysis'):
             os.makedirs('analysis')
 
+    ''' Load 'facebook_combined.txt' to a SNAP graph structure '''
+
     def load_graph(self):
         graph = snap.LoadEdgeList(snap.PUNGraph, DATA_PATH, 0, 1)
         return graph
+
+    ''' Compute the closeness centrality values for all nodes and 
+        compare with the previous implementation '''
 
     def closeness_centrality(self):
         res = dict()
@@ -42,10 +47,8 @@ class Analyse_Centrality:
         common = len(set(snap_nodes).intersection(self_nodes))
         print('#overlaps for Closeness Centrality: {}'.format(common))
 
-        if DEBUG:
-            with open(os.path.join('analysis', CLOSENESS_FILE), 'w') as file:
-                for node in order:
-                    file.write('{} {}\n'.format(node[0], res[node[0]]))
+    ''' Compute the betweenness centrality values for all nodes and 
+        compare with the previous implementation '''
 
     def betweenness_centrality(self):
         Nodes = snap.TIntFltH()
@@ -68,10 +71,7 @@ class Analyse_Centrality:
         common = len(set(snap_nodes).intersection(self_nodes))
         print('#overlaps for Betweenness Centrality: {}'.format(common))
 
-        if DEBUG:
-            with open(os.path.join('analysis', BETWEENNESS_FILE), 'w') as file:
-                for node in order:
-                    file.write('{} {}\n'.format(node[0], Nodes[node[0]]))
+    ''' Compute the pageRank values for all nodes and compare with the previous implementation '''
 
     def pagerank(self):
         pageRank = snap.TIntFltH()
@@ -93,10 +93,6 @@ class Analyse_Centrality:
         common = len(set(snap_nodes).intersection(self_nodes))
         print('#overlaps for PageRank Centrality: {}'.format(common))
 
-        if DEBUG:
-            with open(os.path.join('analysis', PAGERANK_FILE), 'w') as file:
-                for node in order:
-                    file.write('{} {}\n'.format(node[0], pageRank[node[0]]))
 
 if __name__ == "__main__":
     obj = Analyse_Centrality()
