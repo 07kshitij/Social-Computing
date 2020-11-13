@@ -1,0 +1,22 @@
+Assignment 2: Calculating Centrality Measures
+
+Name: Kshitij Agrawal
+Roll: 17EC10063
+
+*** Requirements ***
+
+	1. Python 3.7.9 (Tested with this version)
+	2. snap
+		pip install snap-stanford
+
+*** Running the Code ***
+
+	# Task 1
+	# Takes ~ 3-4 minutes on an i7 processor and 8 GB RAM
+
+	python gen_centrality.py
+
+	# Task 2
+	# Takes ~ 1-2 minutes on an i7 processor and 8 GB RAM
+
+	python analyze_centrality.py

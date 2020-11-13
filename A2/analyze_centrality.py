@@ -8,16 +8,12 @@ CLOSENESS_FILE = 'closeness.txt'
 BETWEENNESS_FILE = 'betweenness.txt'
 PAGERANK_FILE = 'pagerank.txt'
 
-DEBUG = False
-
 ''' Class computing the centrality metrics using SNAP library functions '''
 
 
 class Analyse_Centrality:
     def __init__(self):
         self.graph = self.load_graph()
-        if DEBUG and not os.path.exists('analysis'):
-            os.makedirs('analysis')
 
     ''' Load 'facebook_combined.txt' to a SNAP graph structure '''
 
@@ -42,10 +38,9 @@ class Analyse_Centrality:
                 if len(self_nodes) == len(snap_nodes):
                     break
                 u, v = line.split()
-                u = int(u)
-                self_nodes.append(u)
-        common = len(set(snap_nodes).intersection(self_nodes))
-        print('#overlaps for Closeness Centrality: {}'.format(common))
+                self_nodes.append(int(u))
+        overlap = len(set(snap_nodes).intersection(self_nodes))
+        print('#overlaps for Closeness Centrality: {}'.format(overlap))
 
     ''' Compute the betweenness centrality values for all nodes and 
         compare with the previous implementation '''
@@ -66,10 +61,9 @@ class Analyse_Centrality:
                 if len(self_nodes) == len(snap_nodes):
                     break
                 u, v = line.split()
-                u = int(u)
-                self_nodes.append(u)
-        common = len(set(snap_nodes).intersection(self_nodes))
-        print('#overlaps for Betweenness Centrality: {}'.format(common))
+                self_nodes.append(int(u))
+        overlap = len(set(snap_nodes).intersection(self_nodes))
+        print('#overlaps for Betweenness Centrality: {}'.format(overlap))
 
     ''' Compute the pageRank values for all nodes and compare with the previous implementation '''
 
@@ -88,15 +82,14 @@ class Analyse_Centrality:
                 if len(self_nodes) == len(snap_nodes):
                     break
                 u, v = line.split()
-                u = int(u)
-                self_nodes.append(u)
-        common = len(set(snap_nodes).intersection(self_nodes))
-        print('#overlaps for PageRank Centrality: {}'.format(common))
+                self_nodes.append(int(u))
+        overlap = len(set(snap_nodes).intersection(self_nodes))
+        print('#overlaps for PageRank Centrality: {}'.format(overlap))
 
 
 if __name__ == "__main__":
-    obj = Analyse_Centrality()
-    obj.closeness_centrality()
-    obj.betweenness_centrality()
-    obj.pagerank()
-    pass
+
+    analyse_centrality = Analyse_Centrality()
+    analyse_centrality.closeness_centrality()
+    analyse_centrality.betweenness_centrality()
+    analyse_centrality.pagerank()
