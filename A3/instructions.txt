@@ -1,0 +1,50 @@
+Assignment 3: Detecting Hate Speech on Social Media posts
+
+Name: Kshitij Agrawal
+Roll: 17EC10063
+
+*** Requirements ***
+
+	1. Python 3.6.* (Tested with this version)
+	2. numpy
+		pip install numpy
+    3. pandas
+        pip install pandas
+    4. sklearn
+        pip install sklearn
+    5. spacy
+        pip install spacy
+    6. fasttext
+        pip install fasttext
+    7. en_core_web_md
+        spacy download en_core_web_md
+
+*** Running the Code & Description ***
+
+	# Task 1
+    	# Takes 10 - 12 minutes on an i7 processor and 8 GB RAM
+
+        cd task1
+        python main.py
+
+	# Task 2
+        # Model Description
+
+        References :
+            https://machinelearningmastery.com/feature-selection-with-numerical-input-data/
+            (Look at the section on 'Model Built Using Mutual Information Features')
+
+            https://towardsdatascience.com/nlp-with-naive-bayes-feature-selection-in-python-15c4d327aad5
+
+            https://medium.com/@benjohnsonlaird/text-classification-with-feature-selection-using-likelihoods-part-2-c28793575cbf
+
+        The Model uses Multinomial Naive Bayes with feature selection using Mutual Information.
+        Top 2000 features according to Mutual Information score are used for training the Multinomial Naive Bayes Classifier.
+        The results are stored in 'predictions/T2.csv'
+
+        # Running the Code
+    	    # Takes ~ 1-2 minutes on an i7 processor and 8 GB RAM
+
+            cd .. (If not in the root folder)
+            cd task2
+            python main.py
